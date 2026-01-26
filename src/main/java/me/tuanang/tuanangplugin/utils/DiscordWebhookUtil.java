@@ -3,11 +3,12 @@ package me.tuanang.tuanangplugin.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.kazamistudio.taiXiuPlugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class DiscordWebhookUtil {
 
@@ -16,18 +17,14 @@ public class DiscordWebhookUtil {
 
     public static void sendWebhook(String title, String description, String thumbnailUrl, String footer, int color) {
         try {
-            TaiXiuPlugin plugin = TaiXiuPlugin.getInstance();
+            TuanAngPlugin plugin = TuanAngPlugin.getInstance();
             FileConfiguration config = plugin.getConfig();
 
             boolean enabled = config.getBoolean("discord.enabled", false);
-            if (!enabled) {
-                return;
-            }
+            if (!enabled) return;
 
             String webhookUrl = config.getString("discord.webhook-url", "");
-            if (webhookUrl.isEmpty()) {
-                return;
-            }
+            if (webhookUrl == null || webhookUrl.isEmpty()) return;
 
             URL url = new URL(webhookUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -59,10 +56,9 @@ public class DiscordWebhookUtil {
             JsonObject payload = new JsonObject();
             payload.add("embeds", embeds);
 
-            OutputStream os = connection.getOutputStream();
-            os.write(payload.toString().getBytes());
-            os.flush();
-            os.close();
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(payload.toString().getBytes(StandardCharsets.UTF_8));
+            }
 
             connection.getResponseCode(); // trigger request
             connection.disconnect();
