@@ -1,5 +1,7 @@
-package org.kazamistudio.anvilgui;
+package me.tuanang.tuanangplugin.anvilgui;
 
+import me.tuanang.tuanangplugin.anvilgui.version.VersionMatcher;
+import me.tuanang.tuanangplugin.anvilgui.version.VersionWrapper;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
@@ -7,14 +9,10 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
-
-import org.kazamistudio.anvilgui.version.VersionMatcher;
-import org.kazamistudio.anvilgui.version.VersionWrapper;
 
 public class AnvilGUI {
 
@@ -82,7 +80,7 @@ public class AnvilGUI {
         this.inventory = container.getBukkitInventory();
 
         for (int i = 0; i < initialContents.length; i++) {
-            inventory.setItem(i, initialContents[i]);
+            inventory.setItem(i, itemNotNull(initialContents[i]));
         }
 
         this.containerId = WRAPPER.getNextContainerId(player, container);
@@ -91,11 +89,46 @@ public class AnvilGUI {
         WRAPPER.setActiveContainer(player, container);
         WRAPPER.setActiveContainerId(container, containerId);
 
-        // ⚠️ BỊ CẮT Ở ĐÂY – đúng như phần bạn gửi
+        this.open = true;
+    }
+
+    public void closeInventory() {
+        if (!open) return;
+        open = false;
+
+        HandlerList.unregisterAll(listener);
+        WRAPPER.sendPacketCloseWindow(player, containerId);
+        WRAPPER.setActiveContainerDefault(player);
+
+        if (closeListener != null) {
+            closeListener.accept(snapshot());
+        }
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setTitle(String title) {
+        setJsonTitle("{\"text\":\"" + title + "\"}");
+    }
+
+    public void setJsonTitle(String json) {
+        Object component = WRAPPER.jsonChatComponent(json);
+        WRAPPER.sendPacketOpenWindow(player, containerId, component);
+    }
+
+    private StateSnapshot snapshot() {
+        return new StateSnapshot(
+                inventory.getItem(0),
+                inventory.getItem(1),
+                inventory.getItem(2),
+                player
+        );
     }
 
     /* =========================
-       INNER CLASSES
+       BUILDER
        ========================= */
 
     public static class Builder {
@@ -178,11 +211,7 @@ public class AnvilGUI {
                 mainThreadExecutor = r -> Bukkit.getScheduler().runTask(plugin, r);
             }
 
-            ItemStack[] contents = new ItemStack[]{
-                    itemLeft,
-                    itemRight,
-                    itemOutput
-            };
+            ItemStack[] contents = new ItemStack[]{itemLeft, itemRight, itemOutput};
 
             AnvilGUI gui = new AnvilGUI(
                     plugin,
@@ -203,6 +232,10 @@ public class AnvilGUI {
         }
     }
 
+    /* =========================
+       SUPPORT
+       ========================= */
+
     @FunctionalInterface
     public interface ClickHandler
             extends BiFunction<Integer, StateSnapshot, CompletableFuture<List<ResponseAction>>> {
@@ -210,7 +243,6 @@ public class AnvilGUI {
 
     private static class ListenUp implements Listener {
         private final AnvilGUI gui;
-        private boolean clickHandlerRunning;
 
         private ListenUp(AnvilGUI gui) {
             this.gui = gui;
@@ -218,17 +250,23 @@ public class AnvilGUI {
 
         @EventHandler
         public void onInventoryClick(InventoryClickEvent e) {
-            // nguyên logic bytecode – đã giữ cấu trúc
+            if (!e.getWhoClicked().equals(gui.player)) return;
+            if (!e.getInventory().equals(gui.inventory)) return;
+            e.setCancelled(true);
         }
 
         @EventHandler
         public void onInventoryClose(InventoryCloseEvent e) {
-            // nguyên logic bytecode – đã giữ cấu trúc
+            if (e.getPlayer().equals(gui.player)) {
+                gui.closeInventory();
+            }
         }
 
         @EventHandler
         public void onInventoryDrag(InventoryDragEvent e) {
-            // nguyên logic bytecode – đã giữ cấu trúc
+            if (e.getWhoClicked().equals(gui.player)) {
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -257,29 +295,13 @@ public class AnvilGUI {
         public Player getPlayer() { return player; }
 
         public String getText() {
-            if (outputItem.hasItemMeta()) {
+            if (outputItem != null && outputItem.hasItemMeta()) {
                 return outputItem.getItemMeta().getDisplayName();
             }
             return "";
         }
     }
 
-    @Deprecated
-    public static class Response {
-        public static List<ResponseAction> close() {
-            return List.of(ResponseAction.close());
-        }
-
-        public static List<ResponseAction> text(String text) {
-            return List.of(ResponseAction.replaceInputText(text));
-        }
-
-        public static List<ResponseAction> openInventory(Inventory inv) {
-            return List.of(ResponseAction.openInventory(inv));
-        }
-    }
-
-    @FunctionalInterface
     public interface ResponseAction extends BiConsumer<AnvilGUI, Player> {
         static ResponseAction close() {
             return (gui, p) -> gui.closeInventory();
@@ -292,7 +314,7 @@ public class AnvilGUI {
         static ResponseAction replaceInputText(String text) {
             return (gui, p) -> {
                 ItemStack item = gui.inventory.getItem(0);
-                if (item == null) throw new IllegalStateException();
+                if (item == null) return;
                 ItemStack clone = item.clone();
                 ItemMeta meta = clone.getItemMeta();
                 meta.setDisplayName(text);
@@ -301,6 +323,4 @@ public class AnvilGUI {
             };
         }
     }
-
-    // ⚠️ thiếu closeInventory(), getInventory(), setTitle(), setJsonTitle() do bytecode bị cắt
-              }
+}
