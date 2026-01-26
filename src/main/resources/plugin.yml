@@ -1,0 +1,39 @@
+name: TaiXiu
+version: '1.0'
+main: me.tuanang.tuanangplugin.TuanAngPlugin
+api-version: '1.21'
+load: STARTUP
+authors: [ TuanAng ]
+description: Plugin với đầy đủ các chức năng mở rộng mà bạn có thể tuỳ biến cao
+
+soft-depend: [Vault,PlayerPoints,TokenManager]
+
+commands:
+  tai:
+    description: Đặt cược Tài
+    usage: /tai <số tiền>
+  xiu:
+    description: Đặt cược Xỉu
+    usage: /xiu <số tiền>
+  cau:
+    description: Xem GUI cầu
+    usage: /cau
+  all:
+    description: Cược toàn bộ tiền vào Tài hoặc Xỉu
+    usage: /all <tai|xiu>
+  allmenu:
+    description: Cược toàn bộ tiền vào Tài hoặc Xỉu
+    usage: /allmenu
+  taixiu:
+    description: mở gui cược
+    usage: /taixiu
+  taixiuadmin:
+    description: Reload hoặc clear dữ liệu plugin Tài Xỉu
+    usage: /taixiuadmin reload | clear
+    permission: taixiu.admin
+    permission-message: §cBạn không có quyền sử dụng lệnh này!
+
+permissions:
+  taixiu.admin:
+    description: Toàn quyền với plugin Tài Xỉu
+    default: op
