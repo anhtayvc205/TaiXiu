@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.commands;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.gui.AllBetGUI;
 import me.tuanang.tuanangplugin.gui.TaixiuGUI;
 import me.tuanang.tuanangplugin.managers.RoundManager;
@@ -42,7 +42,7 @@ public class TaiXiuCommand implements CommandExecutor, TabCompleter {
 
         if (sub.equalsIgnoreCase("reload")) {
 
-            TaiXiuPlugin.getInstance().reloadConfig();
+            TuanAngPlugin.getInstance().reloadConfig();
             TaixiuGUI.reload();
             AllBetGUI.reload();
 
@@ -60,7 +60,7 @@ public class TaiXiuCommand implements CommandExecutor, TabCompleter {
 
         if (sub.equalsIgnoreCase("clear")) {
 
-            RoundManager rm = TaiXiuPlugin.getInstance().getRoundManager();
+            RoundManager rm = TuanAngPlugin.getInstance().getRoundManager();
             rm.clearHistory();
             sender.sendMessage("§c[!] Dữ liệu đã được xoá sạch.");
             return true;
@@ -68,7 +68,7 @@ public class TaiXiuCommand implements CommandExecutor, TabCompleter {
 
         if (sub.equalsIgnoreCase("payout")) {
 
-            RoundManager rm = TaiXiuPlugin.getInstance().getRoundManager();
+            RoundManager rm = TuanAngPlugin.getInstance().getRoundManager();
             double jackpot = rm.getJackpot();
 
             if (jackpot <= 0) {
