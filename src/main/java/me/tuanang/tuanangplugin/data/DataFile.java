@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.data;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,7 +17,7 @@ public class DataFile {
     private final TaiXiuPlugin plugin;
 
     public DataFile() {
-        this.plugin = TaiXiuPlugin.getInstance();
+        this.plugin = TuanAngPlugin.getInstance();
 
         this.file = new File(plugin.getDataFolder(), "data.yml");
 
