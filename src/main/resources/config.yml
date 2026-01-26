@@ -1,0 +1,20 @@
+round-time: 60
+
+bet:
+  min: 1000
+  max: 1000000
+
+bossbar:
+  title: "&6Phiên #%round% &8| &aTài &f(%tai%) &8- &cXỉu &f(%xiu%) &8| &e%time%s"
+  colors:
+    green: 20
+    yellow: 10
+
+jackpot:
+  start: 1000000
+  tax: 0.05
+  explode-chance: 0.03
+
+discord:
+  enable: true
+  webhook-url: "WEBHOOK_CUA_BAN"
