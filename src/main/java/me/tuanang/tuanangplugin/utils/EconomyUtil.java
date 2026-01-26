@@ -19,12 +19,9 @@ public class EconomyUtil {
     private static PlayerPointsAPI playerPointsAPI;
     private static TokenManager tokenManager;
     private static Economy vaultEcon;
-    private static String type;
+    private static String type = "vault"; // default an toàn
 
-    public EconomyUtil() {
-    }
-
-    // ===================== SETUP =====================
+    /* ===================== SETUP ===================== */
 
     public static boolean setup() {
         FileConfiguration config = TuanAngPlugin.getInstance().getConfig();
@@ -33,7 +30,7 @@ public class EconomyUtil {
         List<String> supported = Arrays.asList("vault", "playerpoints", "tokenmanager");
 
         if (!supported.contains(type)) {
-            Bukkit.getLogger().warning("❌ Loại tiền tệ không hợp lệ trong config: " + type);
+            Bukkit.getLogger().warning("❌ Loại tiền tệ không hợp lệ: " + type);
             return tryFallback(supported);
         }
 
@@ -50,14 +47,13 @@ public class EconomyUtil {
             if (initType(t)) {
                 Bukkit.getLogger().info("⚠ Tự động chuyển sang loại tiền: " + t);
                 type = t;
-
                 TuanAngPlugin.getInstance().getConfig().set("currency.type", t);
                 TuanAngPlugin.getInstance().saveConfig();
                 return true;
             }
         }
 
-        Bukkit.getLogger().severe("❌ Không tìm thấy bất kỳ plugin tiền tệ nào khả dụng!");
+        Bukkit.getLogger().severe("❌ Không tìm thấy plugin tiền tệ nào!");
         return false;
     }
 
@@ -98,7 +94,7 @@ public class EconomyUtil {
         return false;
     }
 
-    // ===================== BALANCE =====================
+    /* ===================== BALANCE ===================== */
 
     public static double getBalance(OfflinePlayer player) {
         switch (type) {
@@ -109,10 +105,7 @@ public class EconomyUtil {
                 return playerPointsAPI.look(player.getUniqueId());
 
             case "tokenmanager":
-                if (!player.isOnline()) {
-                    Bukkit.getLogger().warning("⚠ Không thể lấy số dư TokenManager cho người chơi: " + player.getName());
-                    return 0;
-                }
+                if (!player.isOnline()) return 0;
                 return tokenManager.getTokens(player.getPlayer()).orElse(0);
 
             default:
@@ -120,7 +113,7 @@ public class EconomyUtil {
         }
     }
 
-    // ===================== WITHDRAW =====================
+    /* ===================== WITHDRAW ===================== */
 
     public static boolean withdraw(OfflinePlayer player, double amount) {
         switch (type) {
@@ -131,10 +124,7 @@ public class EconomyUtil {
                 return playerPointsAPI.take(player.getUniqueId(), (int) amount);
 
             case "tokenmanager":
-                if (!player.isOnline()) {
-                    Bukkit.getLogger().warning("⚠ Không thể trừ token cho người chơi: " + player.getName());
-                    return false;
-                }
+                if (!player.isOnline()) return false;
                 return tokenManager.removeTokens(player.getPlayer(), (long) amount);
 
             default:
@@ -142,7 +132,7 @@ public class EconomyUtil {
         }
     }
 
-    // ===================== DEPOSIT =====================
+    /* ===================== DEPOSIT ===================== */
 
     public static void deposit(OfflinePlayer player, double amount) {
         switch (type) {
@@ -155,12 +145,9 @@ public class EconomyUtil {
                 break;
 
             case "tokenmanager":
-                if (!player.isOnline()) {
-                    Bukkit.getLogger().warning("⚠ Không thể cộng token cho người chơi: " + player.getName());
-                    return;
-                }
+                if (!player.isOnline()) return;
                 tokenManager.addTokens(player.getPlayer(), (long) amount);
                 break;
         }
     }
-                        }
+}
