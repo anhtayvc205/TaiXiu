@@ -1,0 +1,23 @@
+.class public Lme/tuanang/tuanangplugin/commands/XiuCommand;
+.super Lme/tuanang/tuanangplugin/commands/BetCommand;
+.source "XiuCommand.java"
+
+# direct methods
+.method public constructor <init>()V
+    .registers 1
+
+    .line 3
+    invoke-direct {p0}, Lme/tuanang/tuanangplugin/commands/BetCommand;-><init>()V
+
+    return-void
+.end method
+
+# virtual methods
+.method protected isTai()Z
+    .registers 2
+
+    .line 5
+    const/4 v0, 0x0
+
+    return v0
+.end method
