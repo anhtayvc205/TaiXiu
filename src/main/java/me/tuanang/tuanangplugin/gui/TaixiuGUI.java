@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.gui;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import me.tuanang.tuanangplugin.utils.MoneyUtils;
 
@@ -41,7 +41,7 @@ public class TaixiuGUI {
 
         File file = new File(dir, "taixiugui.yml");
         if (!file.exists()) {
-            TaiXiuPlugin.getInstance().saveResource("guid/taixiugui.yml", false);
+            TuanAngPlugin.getInstance().saveResource("guid/taixiugui.yml", false);
         }
 
         guiConfig = YamlConfiguration.loadConfiguration(file);
@@ -80,7 +80,7 @@ public class TaixiuGUI {
         if (name.contains("Cược Tài")) {
             player.closeInventory();
             Bukkit.getScheduler().runTaskLater(
-                    TaiXiuPlugin.getInstance(),
+                    TuanAngPlugin.getInstance(),
                     () -> openAnvil(player, true),
                     1L
             );
@@ -90,7 +90,7 @@ public class TaixiuGUI {
         if (name.contains("Cược Xỉu")) {
             player.closeInventory();
             Bukkit.getScheduler().runTaskLater(
-                    TaiXiuPlugin.getInstance(),
+                    TuanAngPlugin.getInstance(),
                     () -> openAnvil(player, false),
                     1L
             );
@@ -100,7 +100,7 @@ public class TaixiuGUI {
     public static void openAnvil(Player player, boolean tai) {
 
         new AnvilGUI.Builder()
-                .plugin(TaiXiuPlugin.getInstance())
+                .plugin(TuanAngPlugin.getInstance())
                 .title("Nhập số tiền cược")
                 .text("1000")
                 .onClick((slot, state) -> {
@@ -110,7 +110,7 @@ public class TaixiuGUI {
 
                     try {
                         double money = Double.parseDouble(state.getText());
-                        RoundManager rm = TaiXiuPlugin.getInstance().getRoundManager();
+                        RoundManager rm = TuanAngPlugin.getInstance().getRoundManager();
 
                         boolean success = rm.placeBet(player, tai, money);
                         if (success) {
