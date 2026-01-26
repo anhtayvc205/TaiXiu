@@ -1,4 +1,4 @@
-package org.kazamistudio.taiXiuPlugin.utils;
+package me.tuanang.tuanangplugin.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
