@@ -19,19 +19,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.logging.Logger;
 
-public class TaiXiuPlugin extends JavaPlugin {
+public class TuanAngPlugin extends JavaPlugin {
 
-    private static TaiXiuPlugin instance;
+    private static TuanAngPlugin instance;
 
     private DataFile dataFile;
     private FileConfiguration discordConfig;
     private RoundManager roundManager;
 
-    public TaiXiuPlugin() {
+    public TuanAngPlugin() {
         super();
     }
 
-    public static TaiXiuPlugin getInstance() {
+    public static TuanAngPlugin getInstance() {
         return instance;
     }
 
