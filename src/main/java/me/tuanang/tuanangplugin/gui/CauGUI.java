@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.gui;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import me.tuanang.tuanangplugin.managers.RoundManager.RoundHistory;
 import me.tuanang.tuanangplugin.managers.RoundManager.Result;
@@ -33,7 +33,7 @@ public class CauGUI {
                 "§e" + getTitle()
         );
 
-        RoundManager rm = TaiXiuPlugin.getInstance().getRoundManager();
+        RoundManager rm = TuanAngPlugin.getInstance().getRoundManager();
         List<RoundHistory> history = rm.getDetailedHistory();
         int roundNumber = rm.getRoundNumber();
 
