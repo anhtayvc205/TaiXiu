@@ -1,4 +1,4 @@
-package org.kazamistudio.taiXiuPlugin.utils;
+package me.tuanang.tuanangplugin.utils;
 
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
