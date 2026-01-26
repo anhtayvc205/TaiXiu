@@ -1,12 +1,14 @@
-package org.kazamistudio.taiXiuPlugin.managers;
+package me.tuanang.tuanangplugin.managers;
 
-import org.bukkit.*;
-import org.bukkit.boss.*;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
+import me.tuanang.tuanangplugin.utils.DiscordWebhookUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.kazamistudio.taiXiuPlugin.TaiXiuPlugin;
-import org.kazamistudio.taiXiuPlugin.utils.DiscordWebhookUtil;
 
 import java.util.*;
 
@@ -43,7 +45,7 @@ public class RoundManager {
         betPlayers.put(true, new ArrayList<>());
         betPlayers.put(false, new ArrayList<>());
 
-        FileConfiguration cfg = TaiXiuPlugin.getInstance().getConfig();
+        FileConfiguration cfg = TuanAngPlugin.getInstance().getConfig();
 
         roundTime = cfg.getInt("round-time", 60);
         houseWinChance = cfg.getDouble("house-win-chance", 0.1);
@@ -87,7 +89,7 @@ public class RoundManager {
                 bossBar.setProgress((double) initCountdown / roundTime);
                 initCountdown--;
             }
-        }.runTaskTimer(TaiXiuPlugin.getInstance(), 0, 20);
+        }.runTaskTimer(TuanAngPlugin.getInstance(), 0, 20);
     }
 
     public void startNewRound() {
@@ -105,7 +107,7 @@ public class RoundManager {
                 updateBossBar(timeLeft);
                 timeLeft--;
             }
-        }.runTaskTimer(TaiXiuPlugin.getInstance(), 0, 20);
+        }.runTaskTimer(TuanAngPlugin.getInstance(), 0, 20);
     }
 
     /* ================= ROUND ================= */
@@ -117,11 +119,9 @@ public class RoundManager {
         Result result = sum >= 11 ? Result.TAI : Result.XIU;
         boolean isTai = result == Result.TAI;
 
-        // broadcast
         Bukkit.broadcastMessage("§6[Phiên #" + roundNumber + "] Kết quả: "
                 + getDiceVisual() + " = " + sum + " → " + (isTai ? "§bTài" : "§fXỉu"));
 
-        // lưu lịch sử
         roundHistories.addFirst(new RoundHistory(result, dice, false));
         history.add(result);
 
@@ -137,6 +137,16 @@ public class RoundManager {
 
     private String getDiceVisual() {
         return "🎲 " + currentDice[0] + " - " + currentDice[1] + " - " + currentDice[2];
+    }
+
+    /* ================= PLACEHOLDERS (nếu bạn chưa gửi) ================= */
+
+    private void runGameRounds() {
+        startNewRound();
+    }
+
+    private void processRoundWithAnimation() {
+        // TODO: logic animation + gọi finalizeRound()
     }
 
     /* ================= INNER CLASSES ================= */
