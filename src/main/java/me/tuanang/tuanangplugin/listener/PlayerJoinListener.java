@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.listener;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
 
-        RoundManager roundManager = TaiXiuPlugin.getInstance().getRoundManager();
+        RoundManager roundManager = TuanAngPlugin.getInstance().getRoundManager();
 
         BossBar bossBar = roundManager.getBossBar();
         Player player = event.getPlayer();
