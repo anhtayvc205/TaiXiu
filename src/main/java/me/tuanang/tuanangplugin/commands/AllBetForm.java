@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.commands;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import me.tuanang.tuanangplugin.utils.EconomyUtil;
 import me.tuanang.tuanangplugin.utils.MoneyUtils;
@@ -47,7 +47,7 @@ public class AllBetForm {
                 .validResultHandler((f, res) -> {
                     if (res.getResult()) {
                         Bukkit.getScheduler().runTask(
-                                TaiXiuPlugin.getInstance(),
+                                TuanAngPlugin.getInstance(),
                                 () -> placeBet(player, tai, money)
                         );
                     } else {
