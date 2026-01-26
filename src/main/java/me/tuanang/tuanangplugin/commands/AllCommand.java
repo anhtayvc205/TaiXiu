@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.commands;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import me.tuanang.tuanangplugin.utils.EconomyUtil;
 import me.tuanang.tuanangplugin.utils.MoneyUtils;
@@ -51,7 +51,7 @@ public class AllCommand implements CommandExecutor {
                 return true;
             }
 
-            RoundManager rm = TaiXiuPlugin.getInstance().getRoundManager();
+            RoundManager rm = TuanAngPlugin.getInstance().getRoundManager();
             boolean success = rm.placeBet(player, tai, balance);
 
             if (success) {
