@@ -1,0 +1,30 @@
+name: TaiXiuTuanAng
+version: 2.0.5
+main: me.tuanang.taixiuplugin.TaiXiuPlugin
+api-version: 1.21
+load: STARTUP
+
+softdepend: [Vault, PlayerPoints, TokenManager]
+
+commands:
+  tai:
+    description: Đặt cược Tài
+    usage: /tai <tiền>
+  xiu:
+    description: Đặt cược Xỉu
+    usage: /xiu <tiền>
+  all:
+    description: Cược tất tay
+  allmenu:
+    description: Mở menu tất tay
+  cau:
+    description: Xem cầu
+  taixiu:
+    description: Mở GUI cược
+  taixiuadmin:
+    description: Quản trị plugin
+    permission: taixiu.admin
+
+permissions:
+  taixiu.admin:
+    default: op
