@@ -1,6 +1,7 @@
 package me.tuanang.tuanangplugin.utils;
 
 import me.realized.tokenmanager.api.TokenManager;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
@@ -9,16 +10,16 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.kazamistudio.taiXiuPlugin.TaiXiuPlugin;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class EconomyUtil {
 
     private static PlayerPointsAPI playerPointsAPI;
     private static TokenManager tokenManager;
-    private static String type;
     private static Economy vaultEcon;
+    private static String type;
 
     public EconomyUtil() {
     }
@@ -26,7 +27,7 @@ public class EconomyUtil {
     // ===================== SETUP =====================
 
     public static boolean setup() {
-        FileConfiguration config = TaiXiuPlugin.getInstance().getConfig();
+        FileConfiguration config = TuanAngPlugin.getInstance().getConfig();
         type = config.getString("currency.type", "vault").toLowerCase();
 
         List<String> supported = Arrays.asList("vault", "playerpoints", "tokenmanager");
@@ -49,8 +50,9 @@ public class EconomyUtil {
             if (initType(t)) {
                 Bukkit.getLogger().info("⚠ Tự động chuyển sang loại tiền: " + t);
                 type = t;
-                TaiXiuPlugin.getInstance().getConfig().set("currency.type", t);
-                TaiXiuPlugin.getInstance().saveConfig();
+
+                TuanAngPlugin.getInstance().getConfig().set("currency.type", t);
+                TuanAngPlugin.getInstance().saveConfig();
                 return true;
             }
         }
@@ -161,4 +163,4 @@ public class EconomyUtil {
                 break;
         }
     }
-                  }
+                        }
