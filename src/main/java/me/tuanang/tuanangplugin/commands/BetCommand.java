@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.commands;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import me.tuanang.tuanangplugin.utils.EconomyUtil;
 import me.tuanang.tuanangplugin.utils.MoneyUtils;
