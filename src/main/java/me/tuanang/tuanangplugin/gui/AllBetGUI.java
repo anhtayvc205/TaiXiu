@@ -1,6 +1,6 @@
 package me.tuanang.tuanangplugin.gui;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
+import me.tuanang.tuanangplugin.TuanAngPlugin;
 import me.tuanang.tuanangplugin.managers.RoundManager;
 import me.tuanang.tuanangplugin.utils.EconomyUtil;
 import me.tuanang.tuanangplugin.utils.MoneyUtils;
@@ -52,7 +52,7 @@ public class AllBetGUI {
             return;
         }
 
-        RoundManager rm = TaiXiuPlugin.getInstance().getRoundManager();
+        RoundManager rm = TuanAngPlugin.getInstance().getRoundManager();
         boolean success = rm.placeBet(player, isTai, balance);
 
         if (!success) return;
@@ -93,7 +93,7 @@ public class AllBetGUI {
     public static void reload() {
 
         File file = new File(
-                TaiXiuPlugin.getInstance().getDataFolder(),
+                TuanAngPlugin.getInstance().getDataFolder(),
                 "guid/taixiu_all.yml"
         );
 
