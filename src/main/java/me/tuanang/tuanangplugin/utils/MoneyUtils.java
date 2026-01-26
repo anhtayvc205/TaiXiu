@@ -1,4 +1,4 @@
-package org.kazamistudio.taiXiuPlugin.utils;
+package me.tuanang.tuanangplugin.utils;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
