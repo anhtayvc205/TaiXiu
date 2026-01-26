@@ -1,50 +1,41 @@
-package me.tuanang.tuanangplugin.managers;
+package org.kazamistudio.taiXiuPlugin.managers;
 
-import me.tuanang.tuanangplugin.TaiXiuPlugin;
-import me.tuanang.tuanangplugin.utils.DiscordWebhookUtil;
 import org.bukkit.*;
 import org.bukkit.boss.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.kazamistudio.taiXiuPlugin.TaiXiuPlugin;
+import org.kazamistudio.taiXiuPlugin.utils.DiscordWebhookUtil;
 
 import java.util.*;
 
 public class RoundManager {
 
-    public static final double MAX_BET = 1_000_000.0;
-    public static final double MIN_BET = 1_000.0;
+    public static final double MAX_BET = 1_000_000D;
+    public static final double MIN_BET = 1_000D;
 
-    private final Map<UUID, BetData> currentBets;
-    private final Map<Boolean, Double> totalBets;
-    private final Map<Boolean, List<UUID>> betPlayers;
-    private final Map<UUID, Long> lastBetAttempt;
-    private final LinkedList<Result> history;
-    private final LinkedList<RoundHistory> roundHistories;
+    private final Map<UUID, BetData> currentBets = new HashMap<>();
+    private final Map<Boolean, Double> totalBets = new HashMap<>();
+    private final Map<Boolean, List<UUID>> betPlayers = new HashMap<>();
+    private final Map<UUID, Long> lastBetAttempt = new HashMap<>();
 
+    private final LinkedList<Result> history = new LinkedList<>();
+    private final LinkedList<RoundHistory> roundHistories = new LinkedList<>();
+
+    private final int[] currentDice = new int[3];
     private final BossBar bossBar;
-    private final int[] currentDice;
 
     private final int roundTime;
     private int timeLeft;
-    private int roundNumber;
+    private int roundNumber = 1;
 
-    private double jackpot;
     private final double houseWinChance;
     private final double jackpotExplodeChance;
     private final double[] jackpotRates;
+    private double jackpot = 0;
 
     public RoundManager() {
-
-        this.roundNumber = 1;
-        this.jackpot = 0D;
-
-        this.currentBets = new HashMap<>();
-        this.totalBets = new HashMap<>();
-        this.betPlayers = new HashMap<>();
-        this.lastBetAttempt = new HashMap<>();
-        this.history = new LinkedList<>();
-        this.roundHistories = new LinkedList<>();
-        this.currentDice = new int[3];
 
         totalBets.put(true, 0D);
         totalBets.put(false, 0D);
@@ -52,101 +43,127 @@ public class RoundManager {
         betPlayers.put(true, new ArrayList<>());
         betPlayers.put(false, new ArrayList<>());
 
-        FileConfiguration config = TaiXiuPlugin.getInstance().getConfig();
+        FileConfiguration cfg = TaiXiuPlugin.getInstance().getConfig();
 
-        this.roundTime = config.getInt("round-time", 60);
-        this.houseWinChance = config.getDouble("house-win-chance", 0.1D);
-        this.jackpotExplodeChance = config.getDouble("jackpot-explode-chance", 0.3D);
+        roundTime = cfg.getInt("round-time", 60);
+        houseWinChance = cfg.getDouble("house-win-chance", 0.1);
+        jackpotExplodeChance = cfg.getDouble("jackpot-explode-chance", 0.3);
 
-        double top1 = config.getDouble("jackpot-share.top1", 60.0) / 100.0;
-        double top2 = config.getDouble("jackpot-share.top2", 25.0) / 100.0;
-        double top3 = config.getDouble("jackpot-share.top3", 15.0) / 100.0;
+        jackpotRates = new double[]{
+                cfg.getDouble("jackpot-share.top1", 60D) / 100D,
+                cfg.getDouble("jackpot-share.top2", 25D) / 100D,
+                cfg.getDouble("jackpot-share.top3", 15D) / 100D
+        };
 
-        this.jackpotRates = new double[]{top1, top2, top3};
-
-        this.bossBar = Bukkit.createBossBar(
+        bossBar = Bukkit.createBossBar(
                 "§eĐang khởi tạo phiên...",
                 BarColor.PURPLE,
                 BarStyle.SEGMENTED_10
         );
-
         bossBar.setVisible(true);
+
         Bukkit.getOnlinePlayers().forEach(bossBar::addPlayer);
     }
 
-    /* ==========================
-       finalizeRound (PHẦN ĐÃ GỬI)
-       ========================== */
+    /* ================= GAME LOOP ================= */
+
+    public void startGameLoop() {
+        new BukkitRunnable() {
+            int initCountdown = roundTime;
+
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().forEach(bossBar::addPlayer);
+
+                if (initCountdown <= 0) {
+                    cancel();
+                    timeLeft = roundTime;
+                    updateBossBar(timeLeft);
+                    runGameRounds();
+                    return;
+                }
+
+                bossBar.setTitle("§eKhởi tạo... Bắt đầu sau §c" + initCountdown + "s");
+                bossBar.setProgress((double) initCountdown / roundTime);
+                initCountdown--;
+            }
+        }.runTaskTimer(TaiXiuPlugin.getInstance(), 0, 20);
+    }
+
+    public void startNewRound() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().forEach(bossBar::addPlayer);
+
+                if (timeLeft <= 0) {
+                    cancel();
+                    processRoundWithAnimation();
+                    return;
+                }
+
+                updateBossBar(timeLeft);
+                timeLeft--;
+            }
+        }.runTaskTimer(TaiXiuPlugin.getInstance(), 0, 20);
+    }
+
+    /* ================= ROUND ================= */
+
     private void finalizeRound(int[] dice) {
-
-        boolean actionBar = TaiXiuPlugin.getInstance()
-                .getConfig()
-                .getBoolean("display.actionbar", true);
-
-        for (int i = 0; i < currentDice.length; i++) {
-            currentDice[i] = dice[i];
-        }
+        System.arraycopy(dice, 0, currentDice, 0, 3);
 
         int sum = dice[0] + dice[1] + dice[2];
-        Result result = (sum >= 11 ? Result.TAI : Result.XIU);
-        boolean isTai = (result == Result.TAI);
+        Result result = sum >= 11 ? Result.TAI : Result.XIU;
+        boolean isTai = result == Result.TAI;
 
-        if (actionBar) {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                p.spigot().sendMessage(
-                        net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
-                        new net.md_5.bungee.api.chat.TextComponent(
-                                "§a🎲 " + getDiceVisual() + " = " + sum + " → " + (isTai ? "§bTài" : "§fXỉu")
-                        )
-                );
-            }
-        }
+        // broadcast
+        Bukkit.broadcastMessage("§6[Phiên #" + roundNumber + "] Kết quả: "
+                + getDiceVisual() + " = " + sum + " → " + (isTai ? "§bTài" : "§fXỉu"));
 
-        FileConfiguration discord = TaiXiuPlugin.getInstance().getDiscordConfig();
-        FileConfiguration config = TaiXiuPlugin.getInstance().getConfig();
+        // lưu lịch sử
+        roundHistories.addFirst(new RoundHistory(result, dice, false));
+        history.add(result);
 
-        String roleId = config.getString("discord.role-id", "");
-
-        String title = discord.getString("result-message.title", "")
-                .replace("%round%", String.valueOf(roundNumber));
-
-        String desc = discord.getString("result-message.description", "")
-                .replace("%dice%", getDiceVisual())
-                .replace("%side%", isTai ? "Tài" : "Xỉu")
-                .replace("%role_id%", roleId);
-
-        int color = discord.getInt("result-message.color", 0xe67e22);
-
-        String thumb = isTai
-                ? discord.getString("result-message.thumbnail-tai", "")
-                : discord.getString("result-message.thumbnail-xiu", "");
-
-        String footer = discord.getString("result-message.footer", "");
-
-        DiscordWebhookUtil.sendWebhook(title, desc, thumb, footer, color);
-
-        Bukkit.broadcastMessage(
-                "§6[Phiên #" + roundNumber + "] Kết quả: " +
-                        getDiceVisual() + " = " + sum + " → " + (isTai ? "§bTài" : "§fXỉu")
-        );
-
-        boolean houseWin = Math.random() < houseWinChance;
-
-        if (houseWin) {
-            Bukkit.broadcastMessage("§4[ NHÀ CÁI THẮNG ] §cNhà cái đã ăn toàn bộ tiền cược ở phiên này!");
-        }
+        roundNumber++;
     }
 
-    /* ====== CÁC METHOD KHÁC BẠN CHƯA GỬI ====== */
+    /* ================= UI ================= */
+
+    public void updateBossBar(int time) {
+        bossBar.setTitle("§eĐang cược... §c" + time + "s");
+        bossBar.setProgress((double) time / roundTime);
+    }
+
     private String getDiceVisual() {
-        return "";
+        return "🎲 " + currentDice[0] + " - " + currentDice[1] + " - " + currentDice[2];
     }
 
-    /* ====== INNER CLASSES / ENUM (chưa gửi) ====== */
+    /* ================= INNER CLASSES ================= */
+
+    public static class BetData {
+        final double amount;
+        final boolean isTai;
+
+        BetData(double amount, boolean isTai) {
+            this.amount = amount;
+            this.isTai = isTai;
+        }
+    }
+
     public enum Result {
         TAI, XIU
     }
 
-    public static class BetData {}
-    public static class RoundHistory {}
+    public static class RoundHistory {
+        public final Result result;
+        public final int[] dice;
+        public final boolean jackpot;
+
+        public RoundHistory(Result result, int[] dice, boolean jackpot) {
+            this.result = result;
+            this.dice = dice.clone();
+            this.jackpot = jackpot;
+        }
+    }
 }
