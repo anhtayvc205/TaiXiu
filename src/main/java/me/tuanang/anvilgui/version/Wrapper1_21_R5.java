@@ -1,18 +1,14 @@
-package org.kazamistudio.anvilgui.version;
+package me.tuanang.tuanangplugin.anvilgui.version;
 
 import net.minecraft.core.BlockPosition;
 import net.minecraft.network.chat.IChatBaseComponent;
-import net.minecraft.network.chat.IChatMutableComponent;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayOutCloseWindow;
 import net.minecraft.network.protocol.game.PacketPlayOutExperience;
 import net.minecraft.network.protocol.game.PacketPlayOutOpenWindow;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.PlayerConnection;
-import net.minecraft.world.entity.player.PlayerInventory;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R5.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_21_R5.util.CraftChatMessage;
@@ -24,6 +20,8 @@ public final class Wrapper1_21_R5 implements VersionWrapper {
 
     public Wrapper1_21_R5() {}
 
+    /* ================= UTIL ================= */
+
     private EntityPlayer toNMS(Player player) {
         return ((CraftPlayer) player).getHandle();
     }
@@ -31,6 +29,8 @@ public final class Wrapper1_21_R5 implements VersionWrapper {
     private int getRealNextContainerId(Player player) {
         return toNMS(player).nextContainerCounter();
     }
+
+    /* ================= VersionWrapper ================= */
 
     @Override
     public VersionWrapper.AnvilContainerWrapper newContainerAnvil(Player player, Object title) {
@@ -51,30 +51,28 @@ public final class Wrapper1_21_R5 implements VersionWrapper {
         EntityPlayer nms = toNMS(player);
         PlayerConnection conn = nms.g;
 
-        PacketPlayOutOpenWindow packet =
-                new PacketPlayOutOpenWindow(id, Containers.i, (IChatBaseComponent) title);
-
-        conn.b(packet);
+        conn.b(new PacketPlayOutOpenWindow(
+                id,
+                Containers.i,
+                (IChatBaseComponent) title
+        ));
     }
 
     @Override
     public void sendPacketCloseWindow(Player player, int id) {
         EntityPlayer nms = toNMS(player);
-        PlayerConnection conn = nms.g;
-        conn.b(new PacketPlayOutCloseWindow(id));
+        nms.g.b(new PacketPlayOutCloseWindow(id));
     }
 
     @Override
     public void sendPacketExperienceChange(Player player, int level) {
         EntityPlayer nms = toNMS(player);
-        PlayerConnection conn = nms.g;
-        conn.b(new PacketPlayOutExperience(0f, 0, level));
+        nms.g.b(new PacketPlayOutExperience(0f, 0, level));
     }
 
     @Override
     public void setActiveContainer(Player player, VersionWrapper.AnvilContainerWrapper container) {
-        EntityPlayer nms = toNMS(player);
-        nms.cn = (Container) container;
+        toNMS(player).cn = (Container) container;
     }
 
     @Override
@@ -95,7 +93,7 @@ public final class Wrapper1_21_R5 implements VersionWrapper {
 
     @Override
     public void handleInventoryCloseEvent(Player player) {
-        // smali không decompile được → để trống để tránh crash
+        // smali không decompile được → để trống cho an toàn
     }
 
     @Override
@@ -132,11 +130,12 @@ public final class Wrapper1_21_R5 implements VersionWrapper {
         public void a(net.minecraft.world.entity.player.EntityHuman human) {}
 
         @Override
-        protected void a(net.minecraft.world.entity.player.EntityHuman human, net.minecraft.world.IInventory inv) {}
+        protected void a(net.minecraft.world.entity.player.EntityHuman human,
+                         net.minecraft.world.IInventory inv) {}
 
         @Override
         public Inventory getBukkitInventory() {
-            InventoryView view = this.getBukkitView();
+            InventoryView view = getBukkitView();
             return view.getTopInventory();
         }
 
@@ -174,4 +173,4 @@ public final class Wrapper1_21_R5 implements VersionWrapper {
             }
         }
     }
-              }
+}
