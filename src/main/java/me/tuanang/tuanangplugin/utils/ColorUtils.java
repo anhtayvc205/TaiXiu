@@ -1,4 +1,4 @@
-package org.kazamistudio.taiXiuPlugin.utils;
+package me.tuanang.tuanangplugin.utils;
 
 import net.md_5.bungee.api.ChatColor;
 
