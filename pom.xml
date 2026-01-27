@@ -9,27 +9,22 @@
     <groupId>me.tuanang</groupId>
     <artifactId>TaiXiu</artifactId>
     <version>2.0.5</version>
-    <packaging>jar</packaging>
 
     <properties>
         <java.version>17</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
-        <!-- Paper -->
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
-        <!-- Vault + TokenManager -->
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
 
-        <!-- PlayerPoints -->
         <repository>
             <id>rosewood</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
@@ -38,7 +33,7 @@
 
     <dependencies>
 
-        <!-- Paper API -->
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -46,7 +41,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault -->
+        <!-- Vault (ĐÚNG artifact) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
