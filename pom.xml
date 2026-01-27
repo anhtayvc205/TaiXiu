@@ -11,71 +11,42 @@
     <version>2.0.5</version>
     <packaging>jar</packaging>
 
-    <name>TaiXiuTuanAng</name>
-
-    <!-- ================= PROPERTIES ================= -->
     <properties>
         <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!-- ================= REPOSITORIES ================= -->
+    <!-- ================= REPO ================= -->
     <repositories>
-
-        <!-- PaperMC -->
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
-        <!-- Spigot -->
         <repository>
-            <id>spigot-repo</id>
+            <id>spigot</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- Vault -->
-        <repository>
-            <id>vault-repo</id>
-            <url>https://nexus.hc.to/content/repositories/pub_releases</url>
-        </repository>
-
-        <!-- PlaceholderAPI -->
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-
-        <!-- CodeMC (AnvilGUI + bStats) -->
-        <repository>
-            <id>codemc</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
-        </repository>
-
-        <!-- Jitpack -->
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
 
-        <!-- PlayerPoints -->
         <repository>
             <id>rosewood</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
 
-        <!-- Geyser / Floodgate -->
         <repository>
-            <id>opencollab</id>
-            <url>https://repo.opencollab.dev/main/</url>
+            <id>vault</id>
+            <url>https://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
-
     </repositories>
 
-    <!-- ================= DEPENDENCIES ================= -->
+    <!-- ================= DEPENDENCY ================= -->
     <dependencies>
 
-        <!-- Paper API -->
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -107,29 +78,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- AnvilGUI (KHÔNG snapshot để khỏi lỗi) -->
-        <dependency>
-            <groupId>net.wesjd</groupId>
-            <artifactId>anvilgui</artifactId>
-            <version>1.10.7</version>
-        </dependency>
-
-        <!-- bStats -->
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-
     </dependencies>
 
     <!-- ================= BUILD ================= -->
     <build>
-        <defaultGoal>clean package</defaultGoal>
-
         <plugins>
-
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -139,25 +92,6 @@
                     <target>21</target>
                 </configuration>
             </plugin>
-
-            <!-- Shade (nếu cần) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <minimizeJar>false</minimizeJar>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
