@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,23 +11,19 @@
 
     <properties>
         <java.version>17</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
-        <!-- Paper -->
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
-        <!-- PlayerPoints -->
         <repository>
             <id>rosewood</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
 
-        <!-- Jitpack (Vault, TokenManager) -->
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
@@ -38,7 +32,6 @@
 
     <dependencies>
 
-        <!-- Paper API -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -46,7 +39,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault (CHUẨN – chỉ dùng 1.7) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
@@ -54,7 +46,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- PlayerPoints -->
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
@@ -62,7 +53,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- TokenManager -->
         <dependency>
             <groupId>com.github.Realizedd</groupId>
             <artifactId>TokenManager</artifactId>
