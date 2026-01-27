@@ -23,4 +23,4 @@ public class TaiXiuGUI {
         i.setItemMeta(meta);
         return i;
     }
-}l
+}
