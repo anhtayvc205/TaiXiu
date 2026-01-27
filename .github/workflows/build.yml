@@ -1,4 +1,4 @@
-name: Build TaiXiuTuanAng
+name: Build TaiXiu Plugin
 
 on:
   push:
@@ -12,21 +12,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout source
+      # Checkout source
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Java 21
       - name: ☕ Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: maven
 
+      # XÓA CACHE MAVEN (bắt buộc để không dùng pom cũ)
+      - name: 🧹 Clear Maven cache
+        run: rm -rf ~/.m2
+
+      # Build ĐÚNG THƯ MỤC TaiXiu
       - name: 🛠 Build with Maven
-        run: mvn -B clean package
+        run: |
+          cd TaiXiu
+          mvn -U clean package
 
-      - name: 📦 Upload artifact (jar)
+      # Upload jar
+      - name: 📦 Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: TaiXiuTuanAng
-          path: target/*.jar
+          path: TaiXiu/target/*.jar
