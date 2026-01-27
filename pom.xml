@@ -15,6 +15,32 @@
         <java.version>17</java.version>
     </properties>
 
+    <!-- 🚫 KHÓA CHẾT placeholder / bstats -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>me.clip</groupId>
+                <artifactId>placeholderapi</artifactId>
+                <version>0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>be.maximvdw</groupId>
+                <artifactId>MVdWPlaceholderAPI</artifactId>
+                <version>0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bstats</groupId>
+                <artifactId>bstats-bukkit</artifactId>
+                <version>0</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <repositories>
         <repository>
             <id>papermc</id>
@@ -47,28 +73,50 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault -->
+        <!-- Vault (khóa bstats) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bstats</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- PlayerPoints -->
+        <!-- PlayerPoints (khóa placeholder) -->
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
             <version>3.3.2</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>me.clip</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- TokenManager -->
+        <!-- TokenManager (khóa placeholder) -->
         <dependency>
             <groupId>com.github.Realizedd</groupId>
             <artifactId>TokenManager</artifactId>
             <version>3.2.4</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>me.clip</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>be.maximvdw</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
