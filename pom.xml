@@ -4,120 +4,94 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.tuanang</groupId>
-    <artifactId>TaiXiu</artifactId>
-    <version>2.0.5</version>
-    <packaging>jar</packaging>
+  <groupId>me.tuanang</groupId>
+  <artifactId>TaiXiu</artifactId>
+  <version>2.0.5</version>
+  <packaging>jar</packaging>
 
-    <properties>
-        <java.version>17</java.version>
-    </properties>
+  <properties>
+    <java.version>17</java.version>
+  </properties>
 
-    <!-- KHÓA TOÀN BỘ DEPENDENCY RÁC -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>me.clip</groupId>
-                <artifactId>placeholderapi</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>be.maximvdw</groupId>
-                <artifactId>MVdWPlaceholderAPI</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.bstats</groupId>
-                <artifactId>bstats-bukkit</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>net.milkbowl.vault</groupId>
-                <artifactId>VaultAPI</artifactId>
-                <version>1.7</version>
-                <scope>provided</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+  <repositories>
+    <repository>
+      <id>papermc</id>
+      <url>https://repo.papermc.io/repository/maven-public/</url>
+    </repository>
 
-    <repositories>
-        <repository>
-            <id>papermc</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>rosewood</id>
-            <url>https://repo.rosewooddev.io/repository/public/</url>
-        </repository>
-        <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
+    <repository>
+      <id>jitpack</id>
+      <url>https://jitpack.io</url>
+    </repository>
 
-    <dependencies>
+    <repository>
+      <id>rosewood</id>
+      <url>https://repo.rosewooddev.io/repository/public/</url>
+    </repository>
+  </repositories>
 
-        <!-- Paper -->
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.21.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+  <dependencies>
 
-        <!-- Vault (chỉ 1.7) -->
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
+    <!-- Paper -->
+    <dependency>
+      <groupId>io.papermc.paper</groupId>
+      <artifactId>paper-api</artifactId>
+      <version>1.21.1-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- PlayerPoints -->
-        <dependency>
-            <groupId>org.black_ixx</groupId>
-            <artifactId>playerpoints</artifactId>
-            <version>3.3.2</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>me.clip</groupId>
-                    <artifactId>placeholderapi</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.bstats</groupId>
-                    <artifactId>bstats-bukkit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <!-- Vault (CHỈ API, runtime server lo) -->
+    <dependency>
+      <groupId>com.github.MilkBowl</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.7</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- TokenManager -->
-        <dependency>
-            <groupId>com.github.Realizedd</groupId>
-            <artifactId>TokenManager</artifactId>
-            <version>3.2.4</version>
-            <scope>provided</scope>
-        </dependency>
+    <!-- PlayerPoints -->
+    <dependency>
+      <groupId>org.black_ixx</groupId>
+      <artifactId>playerpoints</artifactId>
+      <version>3.3.2</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-    </dependencies>
+    <!-- TokenManager -->
+    <dependency>
+      <groupId>com.github.Realizedd</groupId>
+      <artifactId>TokenManager</artifactId>
+      <version>3.2.4</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
