@@ -13,7 +13,6 @@
 
     <properties>
         <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
@@ -21,16 +20,11 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
-
-        <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
 
-        <!-- Paper -->
+        <!-- Paper API -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -38,27 +32,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault API (compile only) -->
+        <!-- Vault API ONLY -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- PlayerPoints (ĐÚNG groupId) -->
-        <dependency>
-            <groupId>org.black_ixx.playerpoints</groupId>
-            <artifactId>PlayerPoints</artifactId>
-            <version>3.3.2</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- TokenManager -->
-        <dependency>
-            <groupId>com.github.Realizedd</groupId>
-            <artifactId>TokenManager</artifactId>
-            <version>3.2.4</version>
             <scope>provided</scope>
         </dependency>
 
