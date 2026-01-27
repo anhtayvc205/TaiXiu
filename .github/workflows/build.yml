@@ -12,30 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout source
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      # Setup Java 21
       - name: ☕ Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
 
-      # XÓA CACHE MAVEN (bắt buộc để không dùng pom cũ)
+      # Xóa cache Maven để tránh dính pom cũ
       - name: 🧹 Clear Maven cache
         run: rm -rf ~/.m2
 
-      # Build ĐÚNG THƯ MỤC TaiXiu
+      # Build trực tiếp ở ROOT (đúng cấu trúc repo của bạn)
       - name: 🛠 Build with Maven
-        run: |
-          cd TaiXiu
-          mvn -U clean package
+        run: mvn -U clean package
 
-      # Upload jar
+      # Upload file jar
       - name: 📦 Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: TaiXiuTuanAng
-          path: TaiXiu/target/*.jar
+          name: TaiXiu
+          path: target/*.jar
