@@ -13,24 +13,23 @@
 
     <properties>
         <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
+        <!-- Paper -->
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
+        <!-- Vault + TokenManager -->
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
 
-        <repository>
-            <id>vault</id>
-            <url>https://nexus.hc.to/content/repositories/pub_releases</url>
-        </repository>
-
+        <!-- PlayerPoints -->
         <repository>
             <id>rosewood</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
@@ -39,7 +38,7 @@
 
     <dependencies>
 
-        <!-- Paper -->
+        <!-- Paper API -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -47,50 +46,28 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault (exclude bstats) -->
+        <!-- Vault -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bstats</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-        <!-- PlayerPoints (exclude placeholder) -->
+        <!-- PlayerPoints -->
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
             <version>3.3.2</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>me.clip</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-        <!-- TokenManager (exclude placeholder + mvdw) -->
+        <!-- TokenManager -->
         <dependency>
             <groupId>com.github.Realizedd</groupId>
             <artifactId>TokenManager</artifactId>
             <version>3.2.4</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>me.clip</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>be.maximvdw</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>
@@ -100,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>17</source>
                     <target>17</target>
