@@ -30,7 +30,7 @@
 
     <dependencies>
 
-        <!-- Paper API -->
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -38,43 +38,28 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault API (compile only, KHÔNG kéo dependency con) -->
+        <!-- Vault API (compile only) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7.1</version>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
 
-        <!-- PlayerPoints (không cho kéo Placeholder) -->
+        <!-- PlayerPoints (ĐÚNG groupId) -->
         <dependency>
-            <groupId>org.black_ixx</groupId>
-            <artifactId>playerpoints</artifactId>
+            <groupId>org.black_ixx.playerpoints</groupId>
+            <artifactId>PlayerPoints</artifactId>
             <version>3.3.2</version>
             <scope>provided</scope>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-        <!-- TokenManager (cấm toàn bộ dependency con) -->
+        <!-- TokenManager -->
         <dependency>
             <groupId>com.github.Realizedd</groupId>
             <artifactId>TokenManager</artifactId>
             <version>3.2.4</version>
             <scope>provided</scope>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>
