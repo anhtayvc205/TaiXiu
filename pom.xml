@@ -9,13 +9,9 @@
     <groupId>me.tuanang</groupId>
     <artifactId>TaiXiuTuanAng</artifactId>
     <version>2.0.5</version>
-    <packaging>jar</packaging>
-
-    <name>TaiXiuTuanAng</name>
 
     <properties>
         <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
@@ -23,11 +19,16 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
 
-        <!-- Paper API -->
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -35,18 +36,17 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault API (chỉ API, server lo runtime) -->
+        <!-- Vault API -->
         <dependency>
-            <groupId>com.github.MilkBowl</groupId>
+            <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
+            <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
 
     </dependencies>
 
     <build>
-        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
