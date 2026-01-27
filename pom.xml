@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.tuanang</groupId>
-    <artifactId>TaiXiuTuanAng</artifactId>
+    <artifactId>TaiXiu</artifactId>
     <version>2.0.5</version>
     <packaging>jar</packaging>
 
@@ -16,7 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!-- ================= REPOSITORIES ================= -->
     <repositories>
         <repository>
             <id>papermc</id>
@@ -27,35 +26,11 @@
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
-
-        <repository>
-            <id>rosewood</id>
-            <url>https://repo.rosewooddev.io/repository/public/</url>
-        </repository>
     </repositories>
 
-    <!-- ================= CẤM PLACEHOLDER TOÀN CỤC ================= -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>me.clip</groupId>
-                <artifactId>placeholderapi</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>be.maximvdw</groupId>
-                <artifactId>MVdWPlaceholderAPI</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <!-- ================= DEPENDENCIES ================= -->
     <dependencies>
 
-        <!-- Paper API -->
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -63,7 +38,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault -->
+        <!-- Vault (CẤM KÉO LAN) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
@@ -71,13 +46,13 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>me.clip</groupId>
-                    <artifactId>placeholderapi</artifactId>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
-        <!-- PlayerPoints -->
+        <!-- PlayerPoints (CẤM Placeholder / bStats) -->
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
@@ -88,10 +63,14 @@
                     <groupId>me.clip</groupId>
                     <artifactId>placeholderapi</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.bstats</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
-        <!-- TokenManager -->
+        <!-- TokenManager (CẤM Placeholder / bStats) -->
         <dependency>
             <groupId>com.github.Realizedd</groupId>
             <artifactId>TokenManager</artifactId>
@@ -102,16 +81,21 @@
                     <groupId>me.clip</groupId>
                     <artifactId>placeholderapi</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>be.maximvdw</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bstats</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
     </dependencies>
 
-    <!-- ================= BUILD ================= -->
     <build>
         <plugins>
-
-            <!-- Java compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -121,33 +105,6 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-
-            <!-- CẤM CỨNG Placeholder -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <id>ban-placeholder</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <exclude>me.clip:placeholderapi</exclude>
-                                        <exclude>be.maximvdw:MVdWPlaceholderAPI</exclude>
-                                    </excludes>
-                                </bannedDependencies>
-                            </rules>
-                            <fail>true</fail>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
