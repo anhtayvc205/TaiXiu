@@ -9,7 +9,6 @@
     <groupId>me.tuanang</groupId>
     <artifactId>TaiXiu</artifactId>
     <version>2.0.5</version>
-    <packaging>jar</packaging>
 
     <properties>
         <java.version>21</java.version>
@@ -20,11 +19,15 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
-
-        <!-- Paper API -->
+        <!-- Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -32,14 +35,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault API ONLY -->
+        <!-- Vault API -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>
