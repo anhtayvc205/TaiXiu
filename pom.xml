@@ -15,32 +15,6 @@
         <java.version>17</java.version>
     </properties>
 
-    <!-- 🚫 KHÓA CHẾT placeholder / bstats -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>me.clip</groupId>
-                <artifactId>placeholderapi</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>be.maximvdw</groupId>
-                <artifactId>MVdWPlaceholderAPI</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.bstats</groupId>
-                <artifactId>bstats-bukkit</artifactId>
-                <version>0</version>
-                <scope>provided</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <repositories>
         <repository>
             <id>papermc</id>
@@ -73,7 +47,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault (khóa bstats) -->
+        <!-- Vault (exclude bstats) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
@@ -87,7 +61,7 @@
             </exclusions>
         </dependency>
 
-        <!-- PlayerPoints (khóa placeholder) -->
+        <!-- PlayerPoints (exclude placeholder) -->
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
@@ -101,7 +75,7 @@
             </exclusions>
         </dependency>
 
-        <!-- TokenManager (khóa placeholder) -->
+        <!-- TokenManager (exclude placeholder + mvdw) -->
         <dependency>
             <groupId>com.github.Realizedd</groupId>
             <artifactId>TokenManager</artifactId>
