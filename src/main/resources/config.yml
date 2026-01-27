@@ -14,7 +14,7 @@ bossbar:
     yellow: 10
 
 jackpot:
-  start: 1000000
+  start: 0
   tax: 0.05
   explode-chance: 0.03
 
