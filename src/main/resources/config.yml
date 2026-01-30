@@ -1,0 +1,12 @@
+bet:
+  min: 100
+  max: 100000
+
+cooldown: 5 # giây
+
+rate:
+  tai: 50
+  xiu: 50
+
+gui:
+  title: "&6&lTÀI XỈU CASINO"
