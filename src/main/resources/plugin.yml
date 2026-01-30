@@ -6,3 +6,5 @@ depend: [Vault]
 commands:
   taixiu:
     description: Mở casino tài xỉu
+  taixiustats:
+    description: Xem thống kê tài xỉu
