@@ -10,3 +10,6 @@ rate:
 
 gui:
   title: "&6&lTÀI XỈU CASINO"
+  
+jackpot:
+  percent: 5
